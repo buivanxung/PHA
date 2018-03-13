@@ -72,7 +72,7 @@ io.on('connection', function (socket) {
     }
   });
   socket.on('message_server',function(data){
-    socket.emit('message_client', data);
+    socket.broadcast.emit('message_client', data);
     console.log(data);
   });
 
