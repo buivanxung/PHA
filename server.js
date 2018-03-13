@@ -17,7 +17,7 @@ function getNextSequenceValue(sequenceName){
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("data");
-        var sequenceDocument = dbo.collection("counters").findAndModify({
+        var sequenceDocument = dbo.counters.findAndModify({
         query:{_id: sequenceName },
         update: {$inc:{sequence_value:1}},
         new:true
@@ -32,7 +32,7 @@ function InsertToDatabase(data, gio, ngay) {
       console.log("Error connect database");
     }
     var dbo = db.db("data");
-    var myobj = {"_id":getNextSequenceValue("tid"), DuLieu: data, ThoiGian: gio, Ngay: ngay };
+    var myobj = {"_id":i++, DuLieu: data, ThoiGian: gio, Ngay: ngay };
     dbo.collection("DuLieu").insertOne(myobj, function(err, res) {
       if (err) throw err;
       console.log("1 document inserted");
