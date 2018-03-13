@@ -17,7 +17,7 @@ function getNextSequenceValue(sequenceName){
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("data");
-        var sequenceDocument = dbo.counters.findAndModify({
+        var sequenceDocument = dbo.collection("counters").findAndModify({
         query:{_id: sequenceName },
         update: {$inc:{sequence_value:1}},
         new:true
