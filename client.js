@@ -29,7 +29,10 @@ const
 port.on("open", function () {
    console.log ("comm port ready");
 });
-
+port.on('data', function (data) {
+  console.log('Data sent:', data);
+  socket.broadcast.emit('feedback', data);
+});
 port.on('readable', function () {
     console.log('Data:', port.read());
     socket.emit('new data2', port.read());
