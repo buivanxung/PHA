@@ -5,6 +5,10 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 app.engine('html', require('ejs').renderFile);
+app.use(require('stylus').middleware({ src: __dirname + '/app' }));
+app.use(express.static(__dirname + '/app'));
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/');
 
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/data";
@@ -43,7 +47,7 @@ function InsertToDatabase(data, gio, ngay) {
 
 // Routing
 app.get('/',function(req,res){
-    res.sendFile(__dirname+'/web.html');
+    res.render('web', { title: 'Hello - Please Login To Your Account' });
 })
 
 app.get('/data',function(req,res){
@@ -66,6 +70,14 @@ io.on('connection', function (socket) {
       socket.emit('event', 12);
       console.log("Event sending!");
     }
+  });
+  socket.on('message_server',function(data){
+    socket.emit('message_client', data);
+    console.log("Sent client Success");
+  });
+  socket.on('message_client',function(data){
+    socket.emit('message_client', data);
+    console.log("Sent client Success");
   });
   socket.on('new data', function(data) {
     console.log(data);

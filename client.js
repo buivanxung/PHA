@@ -18,29 +18,18 @@ const
 
     socket.on('connect', function(){
       console.log("connected");
-      socket.emit('request', 12);
-      console.log("Request Done!");
     });
 
-    socket.on('message', function (data) {
+    socket.on('message_client', function (data) {
       console.log(data);
-      socket.emit('new data', 234234);
-    });
-    socket.on('event', function(data){
-      console.log("Event recived!");
-        if (data == 12) {
-          port.write('Data\r');
-        }
+      port.write(data);
     });
     socket.on('disconnect', function(){});
 ////////////////////////////
 port.on("open", function () {
    console.log ("comm port ready");
 });
-port.on('data', function (data) {
-  console.log('Data:', data);
-  socket.emit('new data', data);
-});
+
 port.on('readable', function () {
     console.log('Data:', port.read());
     socket.emit('new data2', port.read());
