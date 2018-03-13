@@ -9,7 +9,7 @@
 			$(document).ready(function()
 			{
 				socket = io.connect('http://54.179.170.155:5000');
-				socket.on('message_server', function (data) {
+				socket.on('message_client', function (data) {
 					var content = $('#messages').html() + data + '<br/>';
 					$('#messages').html(content);
 				});
@@ -34,7 +34,7 @@
 		<style>
 			body {
 				background-color:#3d5c5c;
-				color: green;
+				color: white;
 			}
 		</style>
 
