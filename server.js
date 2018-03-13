@@ -13,6 +13,14 @@ function delay(ms) {
    ms += new Date().getTime();
    while (new Date() < ms){}
 }
+function getNextSequenceValue(sequenceName){
+        var sequenceDocument = db.counters.findAndModify({
+        query:{_id: sequenceName },
+        update: {$inc:{sequence_value:1}},
+        new:true
+          });
+      return sequenceDocument.sequence_value;
+      }
 
 function InsertToDatabase(data, gio, ngay) {
   MongoClient.connect(url, function(err, db) {
@@ -20,7 +28,7 @@ function InsertToDatabase(data, gio, ngay) {
       console.log("Error connect database");
     }
     var dbo = db.db("data");
-    var myobj = { DuLieu: data, ThoiGian: gio, Ngay: ngay };
+    var myobj = {"_id":getNextSequenceValue("tid"), DuLieu: data, ThoiGian: gio, Ngay: ngay };
     dbo.collection("DuLieu").insertOne(myobj, function(err, res) {
       if (err) throw err;
       console.log("1 document inserted");
