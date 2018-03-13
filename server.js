@@ -73,12 +73,9 @@ io.on('connection', function (socket) {
   });
   socket.on('message_server',function(data){
     socket.emit('message_client', data);
-    console.log("Sent client Success");
+    console.log(data);
   });
-  socket.on('message_client',function(data){
-    socket.emit('message_client', data);
-    console.log("Sent client Success");
-  });
+
   socket.on('new data', function(data) {
     console.log(data);
     var date = new Date();
