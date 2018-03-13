@@ -16,7 +16,8 @@ function delay(ms) {
 function getNextSequenceValue(sequenceName){
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-        var sequenceDocument = db.counters.findAndModify({
+    var dbo = db.db("data");
+        var sequenceDocument = dbo.counters.findAndModify({
         query:{_id: sequenceName },
         update: {$inc:{sequence_value:1}},
         new:true
