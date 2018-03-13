@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Data LoRa   </title>
+  </head>
+
+  <body>
+     <table border="1">
+       <tr bgcolor = "#aaffff">
+	 <td>STT</td>
+         <td>DaTa</td>
+	       <td>Gio</td>
+	       <td>Ngay</td>
+
+       </tr>
+
+       <% list.rows.forEach(function(d) { %>
+         <tr>
+           <td><%= d.data %></td>
+	         <td><%= d.gio %></td>
+	         <td><%= d.ngay %></td>
+
+         </tr>
+     <% }); %>
+     </table>
+  </body>
+</html>
