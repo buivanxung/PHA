@@ -32,7 +32,7 @@ function InsertToDatabase(data, gio, ngay) {
       console.log("Error connect database");
     }
     var dbo = db.db("data");
-    var myobj = {"_id":getNextSequenceValue("tid"), DuLieu: data, ThoiGian: gio, Ngay: ngay };
+    var myobj = { DuLieu: data, ThoiGian: gio, Ngay: ngay };
     dbo.collection("DuLieu").insertOne(myobj, function(err, res) {
       if (err) throw err;
       console.log("1 document inserted");
