@@ -85,6 +85,7 @@ io.on('connection', function (socket) {
   });
   socket.on('status', function(data) {
     socket.broadcast.emit('status_client', data);
+    console.log(data);
   });
 });
 

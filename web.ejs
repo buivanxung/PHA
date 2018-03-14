@@ -33,7 +33,7 @@
 			function postMessage()
 			{
 				if (socket) {
-          if ($('#message').val() == ' ') {
+          if ($('#message').val() == null) {
              alert("Data Error!");
           } else {
             socket.emit('message_server', $('#message').val());
@@ -65,8 +65,6 @@
     $( "#setvalue" ).on( "click", function() {
       spinner.spinner( "value", 5 );
     });
-
-    $( "button" ).button();
 		</script>
 
 		<style>
