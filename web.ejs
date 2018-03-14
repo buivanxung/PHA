@@ -5,7 +5,7 @@
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="/resources/demos/external/jquery-mousewheel/jquery.mousewheel.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script language="javascript">
 			var socket;
 
@@ -22,49 +22,89 @@
           console.log(data);
         });
 
-				// $('#message').bind('keypress', function(e) {
-				// 	var code = (e.keyCode ? e.keyCode : e.which);
-				// 	 if(code == 13) { //Enter keycode
-				// 	   postMessage();
-				// 	 }
+        $("input[type=submit]").attr("disabled", "disabled");
+        $('input, textarea').change(function(){
+           var validacao;
+           // Armazena os valores dos campos
+           var time = $('#numberTime').val();
+           var samp = $('#numberSample').val();
+
+           if ( time == ' ' && samp == ' '  ) {
+                 validacao = false;
+           }
+           else if ( time != '' && samp != '' ) {
+                 validacao = true;
+            }
+           if(validacao == true) {
+             $("input[type=submit]").removeAttr("disabled");
+           }
+         });
+
+     //Trigger change function once to check if the form is validated on page load
+     $('input:first').trigger('change');
+        // $('#numberTime').bind('keypress', function(e) {
+        //   if ($('#numberSample').val() < 0 || $('#numberSample').val() > 13) {
+        //      alert("Over Range Scope!")
+        //   }
 				// });
-			});
+        // $('#numberSample').bind('keypress', function(e) {
+				// 	if ($('#numberTime').val() < 0 || $('#numberTime').val() > 13) {
+        //      alert("Over Range Scope!")
+        //   }
+				// });
+        /////////////////////////
+        var samp1 = $("input[name='sample_1']");
+        var samp2 = $("input[name='sample_2']");
+        var samp3 = $("input[name='sample_3']");
+        var samp4 = $("input[name='sample_4']");
+        var condition = $("input[name='condition']");
 
-			function postMessage()
-			{
-				if (socket) {
-          if ($('#message').val() == null) {
-             alert("Data Error!");
-          } else {
-            socket.emit('message_server', $('#message').val());
-  					$('#message').val('');
-            console.log("data"+ $('#message').val());
+        var chkId1 = '';
+        var chkId2 = '';
+        var chkId3 = '';
+        var chkId4 = '';
+        var conditionId = '';
+        var numberTime = '';
+        var numberSample = '';
+        $('input').on('click', function() {
+          numberSample = $('#numberSample').val();
+          if (numberSample < 0 || numberSample > 4) {
+            alert("Sample Number Over Range Scope!");
           }
-				}
-			}
+          numberTime = $('#numberTime').val();
+          if (numberTime < 0 || numberTime > 500) {
+            alert("Time Measuring Over Range Scope!");
+          }
+          if (numberSample == 1) {
+            $("input[name='sample_2']").prop("disabled", true);
+            $("input[name='sample_3']").prop("disabled", true);
+            $("input[name='sample_4']").prop("disabled", true);
+          } else if (numberSample == 2) {
+            $("input[name='sample_2']").prop("disabled", false);
+            $("input[name='sample_3']").prop("disabled", true);
+            $("input[name='sample_4']").prop("disabled", true);
+          }else if (numberSample == 3) {
+            $("input[name='sample_2']").prop("disabled", false);
+            $("input[name='sample_3']").prop("disabled", false);
+            $("input[name='sample_4']").prop("disabled", true);
+          }else if (numberSample == 4 ) {
+            $("input[name='sample_1']").prop("disabled", false);
+            $("input[name='sample_2']").prop("disabled", false);
+            $("input[name='sample_3']").prop("disabled", false);
+            $("input[name='sample_4']").prop("disabled", false);
+          }
+          if (samp1.is(':checked')) {
+            $("input[name='sample_1']:checked").each ( function() {
+         			chkId1 = $(this).val() + ",";
+              chkId1 = chkId1.slice(0, -1);
 
-      var spinner = $( "#spinner" ).spinner();
-
-    $( "#disable" ).on( "click", function() {
-      if ( spinner.spinner( "option", "disabled" ) ) {
-        spinner.spinner( "enable" );
-      } else {
-        spinner.spinner( "disable" );
-      }
-    });
-    $( "#destroy" ).on( "click", function() {
-      if ( spinner.spinner( "instance" ) ) {
-        spinner.spinner( "destroy" );
-      } else {
-        spinner.spinner();
-      }
-    });
-    $( "#getvalue" ).on( "click", function() {
-      alert( spinner.spinner( "value" ) );
-    });
-    $( "#setvalue" ).on( "click", function() {
-      spinner.spinner( "value", 5 );
-    });
+       	  });
+             // alert ( $(this).val() ); // return all values of checkboxes checked
+             // alert(chkId1); // return value of checkbox checked
+          }
+        });
+        ////////////////////////
+      });
 		</script>
 
 		<style>
@@ -139,7 +179,7 @@
               <label for="">Measuring</label>
             </td>
             <td>
-              <input id="spinner" name="value">
+              <input id="numberTime" type="number" size="20">
             </td>
             <td>
               <select>
@@ -150,15 +190,18 @@
               </select>
             </td>
             <td>
-               <input type="checkbox" name="vehicle" value="Bike"> Sample 1<br>
+               <input type="checkbox" name="sample_1" value="1"> Sample 1<br>
             </td>
             <td>
-               <input type="checkbox" name="vehicle" value="Bike"> Sample 2<br>
+               <input type="checkbox" name="sample_2" value="2"> Sample 2<br>
             </td>
             <td>
             </td>
             <td>
-                <button class="button">Run</button>
+                <input type="submit" value="Run">
+            </td>
+            <td>
+                <input type="submit" value="Stop">
             </td>
           </tr>
           <tr>
@@ -166,19 +209,19 @@
               <label for="">Calibration</label>
             </td>
             <td>
-              <input id="spinner" name="value">
+            <input id="numberSample" type="number" size="20">
             </td>
             <td>
               <label for="">Samples</label>
             </td>
             <td>
-               <input type="checkbox" name="vehicle" value="Bike"> Sample 3<br>
+               <input type="checkbox" name="sample_3" value="3"> Sample 3<br>
             </td>
             <td>
-               <input type="checkbox" name="vehicle" value="Bike"> Sample 4<br>
+               <input type="checkbox" name="sample_4" value="4"> Sample 4<br>
             </td>
             <td>
-               <input type="checkbox" name="vehicle" value="Bike"> Condition<br>
+               <input type="checkbox" name="condition" value="5"> Condition<br>
             </td>
           </tr>
         </table>
@@ -197,7 +240,9 @@
             <td width="50%">
               <table>
                 <td></td>
-                <td>Samples</td>
+                <td>
+                   <h2>Samples</h2>
+                </td>
               </table>
               <table>
                 <tr>
@@ -369,9 +414,6 @@
                 <label for="male">Status: <span id="status"></span></label>
               </td>
               <td width = "40%">
-                <button class="button">Run</button>
-              </td>
-              <td width = "20%">
                 <button class="button">AutoSave</button>
               </td>
             </table>
