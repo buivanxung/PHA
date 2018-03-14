@@ -17,10 +17,10 @@
 					$('#messages').html(content);
           console.log(data);
 				});
-        socket.on('status_client') function(data) {
-          $('#status').html(data);
+        socket.on('status_client', function(data) {
+           $('#status').html(data);
           console.log(data);
-        }
+        });
 
 				// $('#message').bind('keypress', function(e) {
 				// 	var code = (e.keyCode ? e.keyCode : e.which);
