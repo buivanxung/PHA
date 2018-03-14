@@ -83,6 +83,9 @@ io.on('connection', function (socket) {
     console.log("Success");
     socket.broadcast.emit('message', data);
   });
+  socket.on('status', function(data) {
+    socket.broadcast.emit('status_client', data);
+  });
 });
 
 http.listen(5000, function () {

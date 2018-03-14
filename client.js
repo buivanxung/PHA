@@ -17,7 +17,7 @@ const
     }
 
     socket.on('connect', function(){
-      console.log("connected");
+      console.log("connected!");
     });
 
     socket.on('message_client', function (data) {
@@ -27,6 +27,10 @@ const
     });
     socket.on('disconnect', function(){});
 ////////////////////////////
+setInterval(function () {
+  socket.emit('status', "Alive!");
+  console.log("sending");
+}, 10000);
 port.on("open", function () {
    console.log ("comm port ready");
 });

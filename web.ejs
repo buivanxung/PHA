@@ -11,12 +11,16 @@
 
 			$(document).ready(function()
 			{
-				socket = io.connect('/');
+				socket = io.connect('http://54.179.170.155:5000/');
 				socket.on('message', function (data) {
 					var content = $('#messages').html() + data + '<br/>';
 					$('#messages').html(content);
           console.log(data);
 				});
+        socket.on('status_client') function(data) {
+          $('#status').html(data);
+          console.log(data);
+        }
 
 				// $('#message').bind('keypress', function(e) {
 				// 	var code = (e.keyCode ? e.keyCode : e.which);
@@ -29,8 +33,13 @@
 			function postMessage()
 			{
 				if (socket) {
-					socket.emit('message_server', $('#message').val());
-					$('#message').val('');
+          if ($('#message').val() == ' ') {
+             alert("Data Error!");
+          } else {
+            socket.emit('message_server', $('#message').val());
+  					$('#message').val('');
+            console.log("data"+ $('#message').val());
+          }
 				}
 			}
 
@@ -100,7 +109,7 @@
 	</head>
 	<body>
     <table style="width:100%; border: 0.1px solid white;" >
-      <td style="width: 10%; background-color: white;" >
+      <td style="width: 10%; background-color: #d0e2e2;" >
         <table >
         <tr >
           <td ><a href="#">Information</a></td>
@@ -359,7 +368,7 @@
           <td width = "100%">
             <table width = "100%">
               <td width = "40%">
-                <label for="male">Status</label>
+                <label for="male">Status: <span id="status"></span></label>
               </td>
               <td width = "40%">
                 <button class="button">Run</button>
