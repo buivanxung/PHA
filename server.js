@@ -56,7 +56,7 @@ app.get('/data',function(req,res){
     var dbo = db.db("data");
     dbo.collection("DuLieu").find({}, function(err, result) {
       if (err) throw err;
-      res.render(__dirname+'/data.ejs', {list:result} );
+      res.render('/data.ejs', {list:result} );
       db.close();
     });
   });

@@ -15,12 +15,12 @@
           console.log(data);
 				});
 
-				$('#message').bind('keypress', function(e) {
-					var code = (e.keyCode ? e.keyCode : e.which);
-					 if(code == 13) { //Enter keycode
-					   postMessage();
-					 }
-				});
+				// $('#message').bind('keypress', function(e) {
+				// 	var code = (e.keyCode ? e.keyCode : e.which);
+				// 	 if(code == 13) { //Enter keycode
+				// 	   postMessage();
+				// 	 }
+				// });
 			});
 
 			function postMessage()
@@ -37,16 +37,316 @@
 				background-color:#3d5c5c;
 				color: white;
 			}
+      table {
+          border: 0.2px solid white;
+        }
+      td, tr {
+            height: 30;
+            width: 120;
+          }
+
+      .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    }
+    .input{
+      border: none;
+      color: blue;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+    .label {
+      text-align: center;
+    }
 		</style>
 
 	</head>
 	<body>
-		<h2 class="white">Post your messages</h3>
-		<table>
-			<tr><td class="white">Your Message:</td><td><input id="message" type="text" size="50"></td></tr>
-		</table>
-		<h2 class="white">Messages</h3>
-		<div id="messages">
-		</div>
+    <table width = "100%">
+      <td style="width = 10%; background-color: white;" >
+        <table>
+        <tr >
+          <td ><a href="#">Information</a></td>
+        </tr>
+        <tr >
+          <td ><a href="#">Data</a></td>
+        </tr>
+        <tr >
+          <td ><a href="#">Language</a></td>
+        </tr>
+        <tr >
+          <td ><a href="#">Help</a></td>
+        </tr>
+      </table>
+    </td>
+      <td width = "90%">
+  		<h2 class="white">Post your messages</h3>
+  		<table>
+  			<tr>
+          <td class="white">Your Message:</td><td><input id="message" type="text" size="50"></td>
+          <td>
+            <button type="button" name="button" onclick = "postMessage()">Send</button>
+          </td>
+        </tr>
+  		</table>
+        <table>
+          <tr>
+            <td>
+              <label for="">Measuring</label>
+            </td>
+            <td>
+              <input type="text" name="" value="">
+            </td>
+            <td>
+              <select>
+                <option value="second">Second</option>
+                <option value="minute">Minute</option>
+                <option value="hour">Hour</option>
+                <option value="date">Date</option>
+              </select>
+            </td>
+            <td>
+               <input type="checkbox" name="vehicle" value="Bike"> Sample 1<br>
+            </td>
+            <td>
+               <input type="checkbox" name="vehicle" value="Bike"> Sample 2<br>
+            </td>
+            <td>
+            </td>
+            <td>
+                <button class="button">Run</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="">Calibration</label>
+            </td>
+            <td>
+              <input type="text" name="" value="">
+            </td>
+            <td>
+              <label for="">Samples</label>
+            </td>
+            <td>
+               <input type="checkbox" name="vehicle" value="Bike"> Sample 3<br>
+            </td>
+            <td>
+               <input type="checkbox" name="vehicle" value="Bike"> Sample 4<br>
+            </td>
+            <td>
+               <input type="checkbox" name="vehicle" value="Bike"> Condition<br>
+            </td>
+          </tr>
+        </table>
+        <h2 class="white">Messages</h3>
+        <table width="100%">
+          <tr>
+            <td width="50%">
+              <table>
+                <tr>
+                  <div>
+                    <p>Logger message</p>
+                  </div>
+                </tr>
+                <tr>
+                  <div id="messages">
+                  </div>
+                </tr>
+              </table>
+            </td>
+            <td width="50%">
+              <table>
+                <td></td>
+                <td>Samples</td>
+              </table>
+              <table>
+                <tr>
+                  <td><label for=""></label>
+                  </td>
+                  <td>
+                    <label class="lable" for=""> Sample 1</label>
+                  </td>
+                  <td>
+                    <label class="lable" for=""> Sample 2</label>
+                  </td>
+                  <td>
+                    <label class="lable" for=""> Sample 3</label>
+                  </td>
+                  <td>
+                    <label class="lable" for=""> Sample 4</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label class="lable" for="">Ca</label>
+                  </td>
+                  <td>
+                    <label class="lable" for="">0.0</label>
+                  </td>
+                  <td>
+                    <label class="lable" for="">0.0</label>
+                  </td>
+                  <td>
+                    <label class="lable" for="">0.0</label>
+                  </td>
+                  <td>
+                    <label class="lable" for="">0.0</label>
+                  </td>
+                  <td>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">Clo</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">Na</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">K</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">NH4</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">NO3</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">Temperature</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">Time</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                  <td>
+                    <label for="">0.0</label>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <table>
+          <td>
+          </td>
+        </table>
+        <table width = "100%">
+          <td width = "100%">
+            <table width = "100%">
+              <td width = "40%">
+                <label for="male">Status</label>
+              </td>
+              <td width = "40%">
+                <button class="button">Run</button>
+              </td>
+              <td width = "20%">
+                <button class="button">AutoSave</button>
+              </td>
+            </table>
+          </td>
+        </table>
+      </td>
+      </table>
 	</body>
 </html>
