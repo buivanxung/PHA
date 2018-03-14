@@ -40,19 +40,7 @@
            }
          });
 
-     //Trigger change function once to check if the form is validated on page load
      $('input:first').trigger('change');
-        // $('#numberTime').bind('keypress', function(e) {
-        //   if ($('#numberSample').val() < 0 || $('#numberSample').val() > 13) {
-        //      alert("Over Range Scope!")
-        //   }
-				// });
-        // $('#numberSample').bind('keypress', function(e) {
-				// 	if ($('#numberTime').val() < 0 || $('#numberTime').val() > 13) {
-        //      alert("Over Range Scope!")
-        //   }
-				// });
-        /////////////////////////
         var samp1 = $("input[name='sample_1']");
         var samp2 = $("input[name='sample_2']");
         var samp3 = $("input[name='sample_3']");
@@ -103,8 +91,24 @@
              // alert(chkId1); // return value of checkbox checked
           }
         });
+
         ////////////////////////
       });
+      function postMessage()
+			{
+				if (socket) {
+					socket.emit('message', $('#message').val());
+					$('#message').val('');
+				}
+			}
+      function run() {
+         alert("System running");
+         return true;
+      }
+      function stop() {
+         alert("System stopping");
+         return true;
+      }
 		</script>
 
 		<style>
@@ -198,10 +202,10 @@
             <td>
             </td>
             <td>
-                <input type="submit" value="Run">
+                <input type="submit" value="Run" onclick="return run();">
             </td>
             <td>
-                <input type="submit" value="Stop">
+                <input type="submit" value="Stop" onclick="return stop();">
             </td>
           </tr>
           <tr>
