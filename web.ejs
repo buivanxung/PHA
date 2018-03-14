@@ -3,6 +3,9 @@
 		<title>Node.js IL Chat</title>
 		<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/resources/demos/external/jquery-mousewheel/jquery.mousewheel.js"></script>
 		<script language="javascript">
 			var socket;
 
@@ -30,6 +33,31 @@
 					$('#message').val('');
 				}
 			}
+
+      var spinner = $( "#spinner" ).spinner();
+
+    $( "#disable" ).on( "click", function() {
+      if ( spinner.spinner( "option", "disabled" ) ) {
+        spinner.spinner( "enable" );
+      } else {
+        spinner.spinner( "disable" );
+      }
+    });
+    $( "#destroy" ).on( "click", function() {
+      if ( spinner.spinner( "instance" ) ) {
+        spinner.spinner( "destroy" );
+      } else {
+        spinner.spinner();
+      }
+    });
+    $( "#getvalue" ).on( "click", function() {
+      alert( spinner.spinner( "value" ) );
+    });
+    $( "#setvalue" ).on( "click", function() {
+      spinner.spinner( "value", 5 );
+    });
+
+    $( "button" ).button();
 		</script>
 
 		<style>
@@ -38,7 +66,7 @@
 				color: white;
 			}
       table {
-          border: 0.2px solid white;
+          /* border: 0.1px solid white; */
         }
       td, tr {
             height: 30;
@@ -71,9 +99,9 @@
 
 	</head>
 	<body>
-    <table width = "100%">
-      <td style="width = 10%; background-color: white;" >
-        <table>
+    <table style="width:100%; border: 0.1px solid white;" >
+      <td style="width: 10%; background-color: white;" >
+        <table >
         <tr >
           <td ><a href="#">Information</a></td>
         </tr>
@@ -104,7 +132,7 @@
               <label for="">Measuring</label>
             </td>
             <td>
-              <input type="text" name="" value="">
+              <input id="spinner" name="value">
             </td>
             <td>
               <select>
@@ -131,7 +159,7 @@
               <label for="">Calibration</label>
             </td>
             <td>
-              <input type="text" name="" value="">
+              <input id="spinner" name="value">
             </td>
             <td>
               <label for="">Samples</label>
@@ -148,19 +176,15 @@
           </tr>
         </table>
         <h2 class="white">Messages</h3>
-        <table width="100%">
+        <table style="width:100%; border: 0.1px solid white;">
           <tr>
             <td width="50%">
               <table>
-                <tr>
-                  <div>
-                    <p>Logger message</p>
-                  </div>
-                </tr>
-                <tr>
+                <td>
+                  <p>Logger message</p>
+                </td>
                   <div id="messages">
                   </div>
-                </tr>
               </table>
             </td>
             <td width="50%">
