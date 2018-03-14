@@ -8,10 +8,11 @@
 
 			$(document).ready(function()
 			{
-				socket = io.connect('http://54.179.170.155:5000');
+				socket = io.connect('/');
 				socket.on('feedback', function (data) {
 					var content = $('#messages').html() + data + '<br/>';
 					$('#messages').html(content);
+          console.log(data);
 				});
 
 				$('#message').bind('keypress', function(e) {

@@ -9,7 +9,7 @@ var port = new serialport(comPort, {
 
 const
     client = require("socket.io-client"),
-    socket = client.connect("http://192.168.1.11:5000");
+    socket = client.connect("http://54.179.170.155:5000");
 
     function delay(ms) {
        ms += new Date().getTime();
@@ -23,6 +23,7 @@ const
     socket.on('message_client', function (data) {
       console.log(data);
       port.write(data);
+      socket.emit('feedback', data);
     });
     socket.on('disconnect', function(){});
 ////////////////////////////
