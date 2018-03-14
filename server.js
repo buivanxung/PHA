@@ -76,11 +76,12 @@ io.on('connection', function (socket) {
     console.log(data);
   });
 
-  socket.on('new data', function(data) {
+  socket.on('feedback', function(data) {
     console.log(data);
     var date = new Date();
     InsertToDatabase(data, date.toLocaleTimeString(),date.toLocaleDateString());
     console.log("Success");
+    socket.broadcast.emit('message', data);
   });
 });
 

@@ -9,7 +9,7 @@
 			$(document).ready(function()
 			{
 				socket = io.connect('/');
-				socket.on('feedback', function (data) {
+				socket.on('message', function (data) {
 					var content = $('#messages').html() + data + '<br/>';
 					$('#messages').html(content);
           console.log(data);
