@@ -7,7 +7,7 @@ var port = new serialport(comPort, {
      baudrate: 9600
   });
 
-var status = false;
+
 const
     client = require("socket.io-client"),
     socket = client.connect("http://54.179.170.155:5000");
@@ -26,12 +26,14 @@ const
       port.write(data);
       socket.emit('feedback', data);
     });
-    socket.on('client_control', function (data) {
+    var status;
+    socket.on('client_control_status', function (data) {
       if (data == "run") {
         status = true;
       }else {
         status = false;
       }
+      console.log("Status" + status);
     })
     socket.on('disconnect', function(){});
 ////////////////////////////
@@ -42,7 +44,7 @@ setInterval(function () {
   }else {
     socket.emit('control_status', "run");
   }
-  console.log("sending");
+  console.log(status);
 }, 10000);
 port.on("open", function () {
    console.log ("comm port ready");

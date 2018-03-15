@@ -25,17 +25,18 @@
           if (data == "run") {
             $("input[name='run']").attr("disabled", "disabled");
             $("input[name='stop']").removeAttr("disabled");
-            $('#status_running').html("System ready running!");
+            $('#status_running').html("System running!");
           }else if (data == "stop") {
             $("input[name='stop']").attr("disabled", "disabled");
             $("input[name='run']").removeAttr("disabled");
-            $('#status_running').html("System ready stopping!");
+            $('#status_running').html("System stopping!");
           }else {
             $("input[type=submit]").attr("disabled", "disabled");
             $('#status_running').html("System Deny!");
           }
         })
         $("input[type=submit]").attr("disabled", "disabled");
+        $('#status_running').html("System Deny!");
         // $('input, textarea').change(function(){
         //    var validacao;
         //    // Armazena os valores dos campos
@@ -131,7 +132,7 @@
 				}
           $("input[name='run']").attr("disabled", "disabled");
           $("input[name='stop']").removeAttr("disabled");
-         $('#status_running').html("System ready running!");
+         $('#status_running').html("System running!");
          return true;
       }
       function stop() {
@@ -179,6 +180,12 @@
     }
     .label {
       text-align: center;
+    }
+    #Run {
+    width: 20em;  height: 2em;
+    }
+    #Stop {
+    width: 20em;  height: 2em;
     }
 		</style>
 
@@ -236,10 +243,10 @@
             <td>
             </td>
             <td>
-                <input type="submit" name="run" onclick="return run();">
+                <input type="submit" name="run" value="Run" onclick="return run();">
             </td>
             <td>
-                <input type="submit" name="stop" onclick="return stop();">
+                <input type="submit"  name="stop" value="Stop" onclick="return stop();">
             </td>
           </tr>
           <tr>
@@ -262,11 +269,11 @@
                <input type="checkbox" name="condition" value="5"> Condition<br>
             </td>
             <td>
-              <label for=""><strong><span id="status_running"></span></strong></label>
+              <label for=""><font color="red"><span id="status_running"></span></font></label>
             </td>
           </tr>
-          <label for=""><strong><span id="status_sample"></span></strong></label>
-          <label for=""><strong><span id="status_time"></span></strong></label>
+          <label for=""><font color="red"><span id="status_sample"></span></font></label>
+          <label for=""><font color="red"><span id="status_time"></span></font></label>
         </table>
         <h2 class="white">Messages</h3>
         <table style="width:100%; border: 0.1px solid white;">
