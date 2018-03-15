@@ -78,7 +78,7 @@ io.on('connection', function (socket) {
   socket.on('control_status', function(data) {
     socket.broadcast.emit('client_control', data);
   });
-  socket.on('control_status', function(data) {
+  socket.on('web_control_status', function(data) {
     socket.broadcast.emit('client_control_status', data);
   });
 

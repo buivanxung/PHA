@@ -110,7 +110,7 @@
 			}
       function run() {
         if (socket) {
-					socket.emit('control_status', "run");
+					socket.emit('web_control_status', "run");
 				}
           $("input[name='stop']").attr("disabled", "disabled");
           $("input[name='run']").removeAttr("disabled");
@@ -119,7 +119,7 @@
       }
       function stop() {
           if (socket) {
-					socket.emit('control_status', "stop");
+					socket.emit('web_control_status', "stop");
 				 }
          $("input[name='stop']").removeAttr("disabled");
          $("input[name='run']").attr("disabled", "disabled");
