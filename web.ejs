@@ -23,32 +23,37 @@
         });
         socket.on('client_control', function (data) {
           if (data == "run") {
-            $("input[name='stop']").attr("disabled", "disabled");
-            $("input[name='run']").removeAttr("disabled");
-          }else {
             $("input[name='run']").attr("disabled", "disabled");
             $("input[name='stop']").removeAttr("disabled");
+            $('#status_running').html("System ready running!");
+          }else if (data == "stop") {
+            $("input[name='stop']").attr("disabled", "disabled");
+            $("input[name='run']").removeAttr("disabled");
+            $('#status_running').html("System ready stopping!");
+          }else {
+            $("input[type=submit]").attr("disabled", "disabled");
+            $('#status_running').html("System Deny!");
           }
         })
         $("input[type=submit]").attr("disabled", "disabled");
-        $('input, textarea').change(function(){
-           var validacao;
-           // Armazena os valores dos campos
-           var time = $('#numberTime').val();
-           var samp = $('#numberSample').val();
+        // $('input, textarea').change(function(){
+        //    var validacao;
+        //    // Armazena os valores dos campos
+        //    var time = $('#numberTime').val();
+        //    var samp = $('#numberSample').val();
+        //
+        //    if ( time == ' ' && samp == ' '  ) {
+        //          validacao = false;
+        //    }
+        //    else if ( time != '' && samp != '' ) {
+        //          validacao = true;
+        //     }
+        //    if(validacao == true) {
+        //      $("input[type=submit]").removeAttr("disabled");
+        //    }
+        //  });
 
-           if ( time == ' ' && samp == ' '  ) {
-                 validacao = false;
-           }
-           else if ( time != '' && samp != '' ) {
-                 validacao = true;
-            }
-           if(validacao == true) {
-             $("input[type=submit]").removeAttr("disabled");
-           }
-         });
-
-     $('input:first').trigger('change');
+     // $('input:first').trigger('change');
         var samp1 = $("input[name='sample_1']");
         var samp2 = $("input[name='sample_2']");
         var samp3 = $("input[name='sample_3']");
@@ -64,22 +69,29 @@
         var numberSample = '';
         $('input').on('click', function() {
           numberSample = $('#numberSample').val();
-          if (numberSample < 1 || numberSample > 4) {
-            alert("Sample Number Over Range Scope!");
+          if (numberSample < 1 || numberSample > 4 || numberSample == '') {
+            $('#status_sample').html("Sample Number Over Range Scope!");
+          }else {
+            $('#status_sample').html('');
           }
           numberTime = $('#numberTime').val();
-          if (numberTime < 0 || numberTime > 500) {
-            alert("Time Measuring Over Range Scope!");
+          if (numberTime < 0 || numberTime > 500 || numberTime == '') {
+            $('#status_time').html("Time Measuring Over Range Scope!");
+          }else {
+            $('#status_time').html('');
           }
           if (numberSample == 1) {
+            $("input[name='sample_1']").prop("disabled", false);
             $("input[name='sample_2']").prop("disabled", true);
             $("input[name='sample_3']").prop("disabled", true);
             $("input[name='sample_4']").prop("disabled", true);
           } else if (numberSample == 2) {
+            $("input[name='sample_1']").prop("disabled", false);
             $("input[name='sample_2']").prop("disabled", false);
             $("input[name='sample_3']").prop("disabled", true);
             $("input[name='sample_4']").prop("disabled", true);
           }else if (numberSample == 3) {
+            $("input[name='sample_1']").prop("disabled", false);
             $("input[name='sample_2']").prop("disabled", false);
             $("input[name='sample_3']").prop("disabled", false);
             $("input[name='sample_4']").prop("disabled", true);
@@ -88,6 +100,11 @@
             $("input[name='sample_2']").prop("disabled", false);
             $("input[name='sample_3']").prop("disabled", false);
             $("input[name='sample_4']").prop("disabled", false);
+          }else {
+            $("input[name='sample_1']").prop("disabled", true);
+            $("input[name='sample_2']").prop("disabled", true);
+            $("input[name='sample_3']").prop("disabled", true);
+            $("input[name='sample_4']").prop("disabled", true);
           }
           if (samp1.is(':checked')) {
             $("input[name='sample_1']:checked").each ( function() {
@@ -114,16 +131,16 @@
 				}
           $("input[name='stop']").attr("disabled", "disabled");
           $("input[name='run']").removeAttr("disabled");
-         alert("System ready running!");
+         $('#status_running').html("System ready running!");
          return true;
       }
       function stop() {
           if (socket) {
 					socket.emit('web_control_status', "stop");
 				 }
-         $("input[name='stop']").removeAttr("disabled");
-         $("input[name='run']").attr("disabled", "disabled");
-         alert("System stopping");
+         $("input[name='run']").removeAttr("disabled");
+         $("input[name='stop']").attr("disabled", "disabled");
+         $('#status_running').html("System stopping");
          return true;
       }
 		</script>
@@ -244,7 +261,12 @@
             <td>
                <input type="checkbox" name="condition" value="5"> Condition<br>
             </td>
+            <td>
+              <label for=""><strong><span id="status_running"></span></strong></label>
+            </td>
           </tr>
+          <label for=""><strong><span id="status_sample"></span></strong></label>
+          <label for=""><strong><span id="status_time"></span></strong></label>
         </table>
         <h2 class="white">Messages</h3>
         <table style="width:100%; border: 0.1px solid white;">
