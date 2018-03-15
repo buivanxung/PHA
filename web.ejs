@@ -21,7 +21,15 @@
            $('#status').html(data);
           console.log(data);
         });
-
+        socket.on('client_control', function (data) {
+          if (data == "run") {
+            $("input[name='stop']").attr("disabled", "disabled");
+            $("input[name='run']").removeAttr("disabled");
+          }else {
+            $("input[name='run']").attr("disabled", "disabled");
+            $("input[name='stop']").removeAttr("disabled");
+          }
+        })
         $("input[type=submit]").attr("disabled", "disabled");
         $('input, textarea').change(function(){
            var validacao;
@@ -56,7 +64,7 @@
         var numberSample = '';
         $('input').on('click', function() {
           numberSample = $('#numberSample').val();
-          if (numberSample < 0 || numberSample > 4) {
+          if (numberSample < 1 || numberSample > 4) {
             alert("Sample Number Over Range Scope!");
           }
           numberTime = $('#numberTime').val();
@@ -97,15 +105,24 @@
       function postMessage()
 			{
 				if (socket) {
-					socket.emit('message', $('#message').val());
-					$('#message').val('');
+					socket.emit('message_server', $('#message').val());
 				}
 			}
       function run() {
-         alert("System running");
+        if (socket) {
+					socket.emit('control_status', "run");
+				}
+          $("input[name='stop']").attr("disabled", "disabled");
+          $("input[name='run']").removeAttr("disabled");
+         alert("System ready running!");
          return true;
       }
       function stop() {
+          if (socket) {
+					socket.emit('control_status', "stop");
+				 }
+         $("input[name='stop']").removeAttr("disabled");
+         $("input[name='run']").attr("disabled", "disabled");
          alert("System stopping");
          return true;
       }
@@ -202,10 +219,10 @@
             <td>
             </td>
             <td>
-                <input type="submit" value="Run" onclick="return run();">
+                <input type="submit" name="run" onclick="return run();">
             </td>
             <td>
-                <input type="submit" value="Stop" onclick="return stop();">
+                <input type="submit" name="stop" onclick="return stop();">
             </td>
           </tr>
           <tr>

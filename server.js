@@ -75,6 +75,12 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('message_client', data);
     console.log(data);
   });
+  socket.on('control_status', function(data) {
+    socket.broadcast.emit('client_control', data);
+  });
+  socket.on('control_status', function(data) {
+    socket.broadcast.emit('client_control_status', data);
+  });
 
   socket.on('feedback', function(data) {
     console.log(data);
