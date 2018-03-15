@@ -129,8 +129,8 @@
         if (socket) {
 					socket.emit('web_control_status', "run");
 				}
-          $("input[name='stop']").attr("disabled", "disabled");
-          $("input[name='run']").removeAttr("disabled");
+          $("input[name='run']").attr("disabled", "disabled");
+          $("input[name='stop']").removeAttr("disabled");
          $('#status_running').html("System ready running!");
          return true;
       }
@@ -138,9 +138,9 @@
           if (socket) {
 					socket.emit('web_control_status', "stop");
 				 }
-         $("input[name='run']").removeAttr("disabled");
-         $("input[name='stop']").attr("disabled", "disabled");
-         $('#status_running').html("System stopping");
+         $("input[name='stop']").removeAttr("disabled");
+         $("input[name='run']").attr("disabled", "disabled");
+         $('#status_running').html("System stoping");
          return true;
       }
 		</script>
