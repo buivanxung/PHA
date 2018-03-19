@@ -46,8 +46,23 @@ function InsertToDatabase(data, gio, ngay) {
 }
 
 // Routing
-app.get('/',function(req,res){
-    res.render('web', { title: 'Hello - Please Login To Your Account' });
+app.get('/vi',function(req,res){
+    res.render('web_vi', { title: 'Hello - Please Login To Your Account' });
+})
+app.get('/us',function(req,res){
+    res.render('web_us', { title: 'Hello - Please Login To Your Account' });
+})
+app.get('/vi/infor_vi',function(req,res){
+    res.render('infor_vi', { title: 'Hello - Please Login To Your Account' });
+})
+app.get('/vi/help_vi',function(req,res){
+    res.render('help_vi', { title: 'Hello - Please Login To Your Account' });
+})
+app.get('/us/infor_us',function(req,res){
+    res.render('infor_us', { title: 'Hello - Please Login To Your Account' });
+})
+app.get('/us/help_us',function(req,res){
+    res.render('help_us', { title: 'Hello - Please Login To Your Account' });
 })
 
 app.get('/data',function(req,res){

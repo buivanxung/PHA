@@ -1,0 +1,245 @@
+<html>
+  <head>
+		<title>>PHA Distribution</title>
+		<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script language="javascript">
+			var socket;
+
+			$(document).ready(function()
+			{
+				socket = io.connect('http://13.73.237.114:5000');
+				socket.on('message', function (data) {
+					var content = $('#messages').html() + data + '<br/>';
+					$('#messages').html(content);
+          console.log(data);
+				});
+        socket.on('status_client', function(data) {
+           $('#status').html(data);
+          console.log(data);
+        });
+        socket.on('client_control', function (data) {
+          if (data == "run") {
+            $("input[name='run']").attr("disabled", "disabled");
+            $("input[name='stop']").removeAttr("disabled");
+            $('#status_running').html("System running!");
+          }else if (data == "stop") {
+            $("input[name='stop']").attr("disabled", "disabled");
+            $("input[name='run']").removeAttr("disabled");
+            $('#status_running').html("System stopping!");
+          }else {
+            $("input[type=submit]").attr("disabled", "disabled");
+            $('#status_running').html("System Deny!");
+          }
+        })
+        $("input[type=submit]").attr("disabled", "disabled");
+        $('#status_running').html("System Deny!");
+        var samp1 = $("input[name='sample_1']");
+        var samp2 = $("input[name='sample_2']");
+        var samp3 = $("input[name='sample_3']");
+        var samp4 = $("input[name='sample_4']");
+        var condition = $("input[name='condition']");
+
+        // var chkId1 = '';
+        // var chkId2 = '';
+        // var chkId3 = '';
+        // var chkId4 = '';
+        // var conditionId = '';
+
+        //
+        var MICtoPLC = new ArrayBuffer(4);
+        var Cab = 0x01;
+        var Mes_1 = 0x02;
+        var Mes_2 = 0x03;
+        var C_State = 0x05;
+        var Drain = 0x09;
+
+        /////////////Curent State
+        var CT_Standby = 0x00;
+        var CT_Cab = 0x01;
+        var CT_m1 = 0x02;
+        var CT_m2 = 0x03;
+        var Initaling = 0x06;
+        var Calib1 = 0x07;
+        var Calib2 = 0x08;
+        var Drain_Standard = 0x09;
+
+        ///////Cerent Pump
+        var Sample1 = 0x00;
+        var Sample2 = 0x50;
+        var Standard1 = 0x10;
+        var Standard2 = 0x20;
+        var H2o = 0x30;
+        var clear_out = 0x40;
+        /////////////////Size message
+        var F_State = new ArrayBuffer(5);
+        var M1_Calibration = new ArrayBuffer(37);
+        var M2_Calibration = new ArrayBuffer(37);
+        var Calcu_Calibration = new ArrayBuffer(66);
+        var Error_Code = new ArrayBuffer(4);
+        var M_Sample1 = new ArrayBuffer(37);
+        var M_Sample2 = new ArrayBuffer(37);
+
+
+        var numberTime = '';
+        var numberSample = '';
+        $('input').on('click', function() {
+          numberSample = $('#numberSample').val();
+          if (numberSample < 1 || numberSample > 4 || numberSample == '') {
+            $('#status_sample').html("Sample Number Over Range Scope!");
+          }else {
+            $('#status_sample').html('');
+          }
+          numberTime = $('#numberTime').val();
+          if (numberTime < 0 || numberTime > 500 || numberTime == '') {
+            $('#status_time').html("Time Measuring Over Range Scope!");
+          }else {
+            $('#status_time').html('');
+          }
+          if (numberSample == 1) {
+            $("input[name='sample_1']").prop("disabled", false);
+            $("input[name='sample_2']").prop("disabled", true);
+            $("input[name='sample_3']").prop("disabled", true);
+            $("input[name='sample_4']").prop("disabled", true);
+          } else if (numberSample == 2) {
+            $("input[name='sample_1']").prop("disabled", false);
+            $("input[name='sample_2']").prop("disabled", false);
+            $("input[name='sample_3']").prop("disabled", true);
+            $("input[name='sample_4']").prop("disabled", true);
+          }else if (numberSample == 3) {
+            $("input[name='sample_1']").prop("disabled", false);
+            $("input[name='sample_2']").prop("disabled", false);
+            $("input[name='sample_3']").prop("disabled", false);
+            $("input[name='sample_4']").prop("disabled", true);
+          }else if (numberSample == 4 ) {
+            $("input[name='sample_1']").prop("disabled", false);
+            $("input[name='sample_2']").prop("disabled", false);
+            $("input[name='sample_3']").prop("disabled", false);
+            $("input[name='sample_4']").prop("disabled", false);
+          }else {
+            $("input[name='sample_1']").prop("disabled", true);
+            $("input[name='sample_2']").prop("disabled", true);
+            $("input[name='sample_3']").prop("disabled", true);
+            $("input[name='sample_4']").prop("disabled", true);
+          }
+          // if (samp1.is(':checked')) {
+          //   $("input[name='sample_1']:checked").each ( function() {
+         	// 		chkId1 = $(this).val() + ",";
+          //     chkId1 = chkId1.slice(0, -1);
+          //
+       	  // });
+          // }
+        });
+
+        ////////////////////////
+      });
+      function postMessage()
+			{
+				if (socket) {
+					socket.emit('message_server', $('#message').val());
+				}
+			}
+      function run() {
+        if (socket) {
+					socket.emit('web_control_status', "run");
+				}
+          $("input[name='run']").attr("disabled", "disabled");
+          $("input[name='stop']").removeAttr("disabled");
+         $('#status_running').html("System running!");
+         return true;
+      }
+      function stop() {
+          if (socket) {
+					socket.emit('web_control_status', "stop");
+				 }
+         $("input[name='stop']").removeAttr("disabled");
+         $("input[name='run']").attr("disabled", "disabled");
+         $('#status_running').html("System stoping");
+         return true;
+      }
+		</script>
+
+		<style>
+			body {
+				background-color: white;
+				color: white;
+			}
+      h1,h2,h3,h4 {
+        color: #34cbcb;
+      }
+      p {
+        color: black;
+      }
+      table {
+          /* border: 0.1px solid white; */
+        }
+      td, tr {
+            height: 30;
+            width: 120;
+          }
+
+      .button {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+    .input{
+      border: none;
+      color: black;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+    label {
+      text-align: center;
+      color: #0000cc;
+
+    }
+		</style>
+
+	</head>
+	<body>
+    <table style="width:100%; border: 0.1px solid white;" >
+      <td style="width: 10%; background-color: #d0e2e2;" >
+        <table >
+          <tr >
+            <td ><a href="/vi/infor_vi">Thông tin</a></td>
+          </tr>
+          <tr >
+            <td ><a href="/vi">Dữ liệu</a></td>
+          </tr>
+          <tr >
+            <td ><a href="/vi/help_vi">Trợ giúp</a></td>
+          </tr>
+      </table>
+    </td>
+      <td width = "90%">
+        <table>
+          <a href="http://www.phadistribution.com">
+            <img src="/image/pha.png" alt="" height="100" width="150">
+          </a>
+          <p>Tên tiếng Việt: Công ty Cổ phần Phân Phối Công Nghệ PHA Việt Nam </p>
+          <p>Tên tiếng Anh: PHA Viet Nam Technologies Distribution JSC. </p>
+          <p>Tên viết tắt: PHA Distribution </p>
+          <p>  Công ty Cổ phần Phân Phối Công Nghệ PHA Việt Nam được thành lập từ năm 2011, trong bối cảnh nền kinh tế trong nước đang phải đối diện với nhiều biến động và thách thức mới của xu hướng toàn cầu hóa.
+              Ra đời từ ý tưởng của PHA Solution, một Công ty chuyên cung cấp các giải pháp tích hợp hệ thống cho các doanh nghiệp sản xuất, PHA Distribution mang trên vai những trọng trách và nhiệm vụ mới trong vai của một Nhà phân phối các sản phẩm Công nghệ thông tin có uy tín trên thị trường trong và ngoài nước.
+              Cùng sứ mệnh đó, PHA Distribution ý thức tiêu chí chính và quan trọng nhất cho mọi hoạt động của mình là mong muốn mang đến cho Quý đối tác, Khách hàng các giải pháp và sản phẩm mới, chất lượng, cùng độ tin cậy đã và đang được kiểm chứng tại các thị trường phát triển khác. Chúng tôi xem đây là cơ hội lớn của mình để tạo thêm nhiều lựa chọn mới cho thị trường trong xu hướng công nghệ trong ngành liên tục được thay thế, chuyển giao theo chiều hướng có lợi cho khách hàng sử dụng.
+              PHA Distribution, vì vậy, sẽ và chỉ tập trung vào thế mạnh vốn có từ đội ngũ nhân lực có chuyên môn và kinh nghiệm trong ngành để xây dựng thương hiệu và mong muốn trở thành “Nhà Phân Phối” các “Giải pháp và Sản phẩm” có giá trị hướng dịch vụ.
+              Đến với Chúng tôi, Quý đối tác và Khách hàng bên cạnh các hoạt động thương mại đơn thuần, có tính cạnh tranh cao sẽ có thêm nhiều lựa chọn “Dịch vụ” giá trị gia tăng từ chính các sản phẩm, giải pháp mà Quý đối tác, Khách hàng đã và đang ủng hộ. Chúng tôi tâm niệm sự hài lòng của Khách hàng là thước đo giá trị hoạt động và khả năng phát triển bền vững của doanh nghiệp! </p>
+          <p>Trân trọng,</p>
+        </table>
+
+      </td>
+      </table>
+	</body>
+</html>

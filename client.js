@@ -10,7 +10,7 @@ var port = new serialport(comPort, {
 
 const
     client = require("socket.io-client"),
-    socket = client.connect("http://54.179.170.155:5000");
+    socket = client.connect("http://13.73.237.114:5000");
 
     function delay(ms) {
        ms += new Date().getTime();
