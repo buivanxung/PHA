@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Data LoRa   </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <link href="css/animate.css" rel="stylesheet" />
+  <!-- Squad theme CSS -->
+    <link href="css/style_home.css" rel="stylesheet">
+    <link href="color/default.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+       <ul class="nav nav-pills nav-stacked" style="background-color:powderblue;">
+          <li><a href="/homedata">Back Dashboard</a></li>
+       </u>
+      </div>
+     <table border="1">
+       <tr bgcolor = "#aaffff">
+        	 <td>STT</td>
+           <td>Number</td>
+        	 <td>DevEUI</td>
+           <td>AppEUI</td>
+           <td>Port</td>
+           <td>Data</td>
+        	 <td>CreatedAT</td>
+       </tr>
+
+       <% list.rows.forEach(function(d) { %>
+         <tr>
+           <td><%= d.id %></td>
+      	   <td><%= d.num %></td>
+      	   <td><%= d.nodeeui %></td>
+      	   <td><%= d.appeui %></td>
+      	   <td><%= d.port %></td>
+           <td><%= d.phypayload %></td>
+      	   <td><%= d.created_at %></td>
+         </tr>
+     <% }); %>
+     </table>
+  </body>
+</html>

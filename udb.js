@@ -7,7 +7,7 @@ server.on('error', (err) => {
 });
 
 server.on('message', (msg, rinfo) => {
-  console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
+console.log( JSON.parse(msg));
 });
 
 server.on('listening', () => {
@@ -15,4 +15,4 @@ server.on('listening', () => {
   console.log(`server listening ${address.address}:${address.port}`);
 });
 
-server.bind(5432);
+server.bind(9999);
