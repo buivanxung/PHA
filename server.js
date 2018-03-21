@@ -52,7 +52,7 @@ app.get('/',function(req,res){
     var dbo = db.db("data");
     dbo.collection("DuLieu").find({}).toArray(function(err, result) {
       if (err) throw err;
-      res.render('web_vi', {collection:result} );
+      res.render('web', {collection:result} );
       db.close();
     });
   });
