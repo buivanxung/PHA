@@ -46,16 +46,24 @@ function InsertToDatabase(data, gio, ngay) {
 }
 
 // Routing
-app.get('/vi',function(req,res){
-    res.render('web_vi', { title: 'Hello - Please Login To Your Account' });
+app.get('/',function(req,res){
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("data");
+    dbo.collection("DuLieu").find({}).toArray(function(err, result) {
+      if (err) throw err;
+      res.render('web_vi', {collection:result} );
+      db.close();
+    });
+  });
 })
 app.get('/us',function(req,res){
     res.render('web_us', { title: 'Hello - Please Login To Your Account' });
 })
-app.get('/vi/infor_vi',function(req,res){
+app.get('/infor_vi',function(req,res){
     res.render('infor_vi', { title: 'Hello - Please Login To Your Account' });
 })
-app.get('/vi/help_vi',function(req,res){
+app.get('/help_vi',function(req,res){
     res.render('help_vi', { title: 'Hello - Please Login To Your Account' });
 })
 app.get('/us/infor_us',function(req,res){
@@ -63,18 +71,6 @@ app.get('/us/infor_us',function(req,res){
 })
 app.get('/us/help_us',function(req,res){
     res.render('help_us', { title: 'Hello - Please Login To Your Account' });
-})
-
-app.get('/data',function(req,res){
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("data");
-    dbo.collection("DuLieu").find({}, function(err, result) {
-      if (err) throw err;
-      res.render('/data.ejs', {list:result} );
-      db.close();
-    });
-  });
 })
 
 io.on('connection', function (socket) {
@@ -110,6 +106,6 @@ io.on('connection', function (socket) {
   });
 });
 
-http.listen(5000, function () {
+http.listen(5060, function () {
   console.log("Server running with port 5000");
 });

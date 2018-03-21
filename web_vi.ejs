@@ -13,7 +13,8 @@
 
 			$(document).ready(function()
 			{
-				socket = io.connect('http://13.73.237.114:5000');
+				//socket = io.connect('http://13.73.237.114:5000');
+        socket = io.connect('localhost:5060');
 				socket.on('message', function (data) {
 					var content = $('#messages').html() + data + '<br/>';
 					$('#messages').html(content);
@@ -310,8 +311,14 @@
                 <td>
                   <p>Thống kê gói tin</p>
                 </td>
-                  <div style="color:black" id="messages">
-                  </div>
+                <ul >
+                <% for(var i=0; i<collection.length; i++) { %>
+                  <li >
+                    <span style="color: blue"><%= collection[i].DuLieu %></span>
+                    <span style="color: blue"><%= collection[i].ThoiGian %></span>
+                  </li>
+                <% } %>
+                </ul>
               </table>
             </td>
             <td width="50%">
