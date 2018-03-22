@@ -256,6 +256,10 @@ module.exports = function(app) {
   	   return dot.pick( a,data);
   };
 
+  function hextoLSB (str) {
+    return Buffer.from(str, 'hex').readInt32LE();
+  }
+
   server.on('error', (err) => {
     console.log(`server error:\n${err.stack}`);
     server.close();
@@ -268,6 +272,7 @@ module.exports = function(app) {
     catch(e) {
      return console.error(e);
     }
+    var liter = null;
     var nodeeui = getdata('rx.moteeui', parse_data);
     var appeui = getdata('rx.appeui', parse_data);
     var port = getdata('rx.userdata.port', parse_data);
@@ -280,11 +285,19 @@ module.exports = function(app) {
             return console.error('error fetching client from pool', err)
           }
           var buf = new Buffer(payload,'base64');
-          var test = uint32.toUint32(buf);
-          console.log(test + " ");
           var phyPayload = buf.toString();
-
-   client.query("INSERT INTO db_meter(num, nodeeui, appeui, port, phyPayload, created_at, updated_at) VALUES('"+num+"','"+nodeeui+"','"+appeui+"','"+port+"','"+phyPayload+"','Now()','Now()')", function(err, result) {
+          var str = "";
+          if (port == 14) {
+            liter = hextoLSB(phyPayload);
+            console.log(liter);
+          }
+          if (port == 24) {
+            for (i  = 0; i < 8; i ++) {
+              str +=phyPayload[i];
+            }
+            liter = hextoLSB(str);
+          }
+   client.query("INSERT INTO db_meter(num, nodeeui, appeui, port, phyPayload, liter, created_at, updated_at) VALUES('"+num+"','"+nodeeui+"','"+appeui+"','"+port+"','"+phyPayload+"','"+liter"','Now()','Now()')", function(err, result) {
             done();
             if (err) {
               return console.error('error happened during query', err)
