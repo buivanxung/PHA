@@ -8,13 +8,14 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script language="javascript">
 			var socket;
 
 			$(document).ready(function()
 			{
-				//socket = io.connect('http://13.73.237.114:5000');
-        socket = io.connect('localhost:5060');
+				socket = io.connect('http://13.73.237.114:5060');
+        //socket = io.connect('localhost:5060');
 				socket.on('message', function (data) {
 					var content = $('#messages').html() + data + '<br/>';
 					$('#messages').html(content);
@@ -52,6 +53,40 @@
         // var chkId4 = '';
         // var conditionId = '';
 
+        $('#Ca1').html("0.0");
+        $('#Ca2').html("0.0");
+        $('#Ca3').html("0.0");
+        $('#Ca4').html("0.0");
+        $('#Cl1').html("0.0");
+        $('#Cl2').html("0.0");
+        $('#Cl3').html("0.0");
+        $('#Cl4').html("0.0");
+        $('#Na1').html("0.0");
+        $('#Na2').html("0.0");
+        $('#Na3').html("0.0");
+        $('#Na4').html("0.0");
+        $('#K1').html("0.0");
+        $('#K2').html("0.0");
+        $('#K3').html("0.0");
+        $('#K4').html("0.0");
+        $('#N1').html("0.0");
+        $('#N2').html("0.0");
+        $('#N3').html("0.0");
+        $('#N4').html("0.0");
+        $('#N01').html("0.0");
+        $('#N02').html("0.0");
+        $('#N03').html("0.0");
+        $('#N04').html("0.0");
+        $('#T1').html("0.0");
+        $('#T2').html("0.0");
+        $('#T3').html("0.0");
+        $('#T4').html("0.0");
+        $('#Ti1').html("0.0");
+        $('#Ti2').html("0.0");
+        $('#Ti3').html("0.0");
+        $('#Ti4').html("0.0");
+
+
         //
         var MICtoPLC = new ArrayBuffer(4);
         var Cab = 0x01;
@@ -86,19 +121,26 @@
         var M_Sample1 = new ArrayBuffer(37);
         var M_Sample2 = new ArrayBuffer(37);
 
+        setInterval(function () {
+          $('#time').html(new Date());
+        }, 10);
 
         var numberTime = '';
         var numberSample = '';
         $('input').on('click', function() {
+          // $('.progress').removeClass('active');
+          // $('.progress').toggleClass('active');
           numberSample = $('#numberSample').val();
           if (numberSample < 1 || numberSample > 4 || numberSample == '') {
             $('#status_sample').html("Sample Number Over Range Scope!");
+            $('#numberSample').val() = 4;
           }else {
             $('#status_sample').html('');
           }
           numberTime = $('#numberTime').val();
           if (numberTime < 0 || numberTime > 500 || numberTime == '') {
             $('#status_time').html("Time Measuring Over Range Scope!");
+            $('#numberTime').val() = 60;
           }else {
             $('#status_time').html('');
           }
@@ -136,9 +178,9 @@
        	  // });
           // }
         });
-
         ////////////////////////
       });
+
       function postMessage()
 			{
 				if (socket) {
@@ -153,6 +195,7 @@
           $("input[name='run']").attr("disabled", "disabled");
           $("input[name='stop']").removeAttr("disabled");
          $('#status_running').html("System running!");
+         move();
          return true;
       }
       function stop() {
@@ -164,6 +207,20 @@
          $('#status_running').html("System stoping");
          return true;
       }
+      function move() {
+          var elem = document.getElementById("myBar");
+          var width = 5;
+          var id = setInterval(frame, 1000);
+          function frame() {
+              if (width >= 50) {
+                  clearInterval(id);
+              } else {
+                  width++;
+                  elem.style.width = width + '%';
+                  elem.innerHTML = width * 1 + '%';
+              }
+          }
+      }
 		</script>
 
 		<style>
@@ -172,7 +229,7 @@
 				color: white;
 			}
       h1,h2,h3,h4 {
-        color: #34cbcb;
+        color: black;
       }
       table {
           /* border: 0.1px solid white; */
@@ -203,9 +260,20 @@
     }
     label {
       text-align: center;
-      color: #0000cc;
+      color: black;
 
     }
+
+    #myProgress {
+        width: 100%;
+        background-color: #ddd;
+      }
+
+      #myBar {
+        width: 1%;
+        height: 30px;
+        background-color: #4CAF50;
+      }
 		</style>
 
 	</head>
@@ -236,14 +304,17 @@
             <a href="/us">
               <img src="/image/us.png" alt="" width="40" height="20">
             </a>
-
+          </td>
+          <td>
+            <label for=""><span id="time"></span></label>
           </td>
         </table>
   		<table>
   			<tr>
-          <td class="blue">Gói dữ liệu:</td><td><input id="message" type="text" size="50"></td>
+          <td ><font color="black"> Gói dữ liệu:</td><td><input id="message" type="text" size="50"></font></td>
           <td>
             <button type="button" name="button" onclick = "postMessage()">Gửi</button>
+            <!-- <input type="submit" name="send" value="Gửi" onclick="return postMessage();" size="50"> -->
           </td>
         </tr>
   		</table>
@@ -253,7 +324,7 @@
               <label for="">Đo</label>
             </td>
             <td>
-              <input id="numberTime" type="number" size="20">
+              <input id="numberTime" type="number" size="20" min="1" max="500">
             </td>
             <td>
               <select>
@@ -263,10 +334,10 @@
               </select>
             </td>
             <td>
-               <input type="checkbox" name="sample_1" value="1"><font color="blue"> Mẫu 1</font><br>
+               <input type="checkbox" name="sample_1" value="1"><font color="black"> Mẫu 1</font><br>
             </td>
             <td>
-               <input type="checkbox" name="sample_2" value="2"> <font color="blue">Mẫu 2</font><br>
+               <input type="checkbox" name="sample_2" value="2"> <font color="black">Mẫu 2</font><br>
             </td>
             <td>
             </td>
@@ -282,19 +353,19 @@
               <label for="">Hiệu chỉnh</label>
             </td>
             <td>
-            <input id="numberSample" type="number" size="20">
+            <input id="numberSample" type="number" size="20" min="1" max="4">
             </td>
             <td>
               <label for="">Mẫu</label>
             </td>
             <td>
-               <input type="checkbox" name="sample_3" value="3">  <font color="blue">Mẫu 3</font><br>
+               <input type="checkbox" name="sample_3" value="3">  <font color="black">Mẫu 3</font><br>
             </td>
             <td>
-               <input type="checkbox" name="sample_4" value="4">  <font color="blue">Mẫu 4</font><br>
+               <input type="checkbox" name="sample_4" value="4">  <font color="black">Mẫu 4</font><br>
             </td>
             <td>
-               <input type="checkbox" name="condition" value="5"> <font color="blue">Kiểm tra</font><br>
+               <input type="checkbox" name="condition" value="5"> <font color="black">Kiểm tra</font><br>
             </td>
             <td>
               <label for=""><font color="red"><span id="status_running"></span></font></label>
@@ -304,6 +375,9 @@
           <label for=""><font color="red"><span id="status_time"></span></font></label>
         </table>
         <h2 class="white">Dữ liệu</h3>
+          <div id="myProgress">
+          <div id="myBar"></div>
+          </div>
         <table style="width:100%; border: 0.1px solid white;">
           <tr>
             <td width="50%">
@@ -314,8 +388,8 @@
                 <ul >
                 <% for(var i=0; i<collection.length; i++) { %>
                   <li >
-                    <span style="color: blue"><%= collection[i].DuLieu %></span>
-                    <span style="color: blue"><%= collection[i].ThoiGian %></span>
+                    <span style="color: black"><%= collection[i].DuLieu %></span>
+                    <span style="color: black"><%= collection[i].ThoiGian %></span>
                   </li>
                 <% } %>
                 </ul>
@@ -347,140 +421,140 @@
                 </tr>
                 <tr>
                   <td>
-                    <label class="lable" for="">Ca</label>
+                    <label class="lable" for="">Ca (ml/l)</label>
                   </td>
                   <td>
-                    <label class="lable" for="">0.0</label>
+                    <label class="lable" for=""><span id="Ca1"></span></label>
                   </td>
                   <td>
-                    <label class="lable" for="">0.0</label>
+                    <label class="lable" for=""><span id="Ca2"></span></label>
                   </td>
                   <td>
-                    <label class="lable" for="">0.0</label>
+                    <label class="lable" for=""><span id="Ca3"></span></label>
                   </td>
                   <td>
-                    <label class="lable" for="">0.0</label>
+                    <label class="lable" for=""><span id="Ca4"></span></label>
                   </td>
                   <td>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label for="">Clo</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <label for="">Na</label>
+                    <label for="">Clo (ml/l)</label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="Cl1"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="Cl2"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="Cl3"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label for="">K</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="Cl4"></span></label>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <label for="">NH4</label>
+                    <label for="">Na (ml/l)</label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="Na1"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="Na2"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="Na3"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label for="">NO3</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
-                  </td>
-                  <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="Na4"></span></label>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <label for="">Nhiệt Độ</label>
+                    <label for="">K (ml/l)</label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="K1"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="K2"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="K3"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="K4"></span></label>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <label for="">Thời gian</label>
+                    <label for="">NH4 (ml/l)</label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="N1"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="N2"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="N3"></span></label>
                   </td>
                   <td>
-                    <label for="">0.0</label>
+                    <label for=""><span id="N4"></span></label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">NO3 (ml/l)</label>
+                  </td>
+                  <td>
+                    <label for=""><span id="N01"></span></label>
+                  </td>
+                  <td>
+                    <label for=""><span id="N02"></span></label>
+                  </td>
+                  <td>
+                    <label for=""><span id="N03"></span></label>
+                  </td>
+                  <td>
+                    <label for=""><span id="N04"></span></label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">Nhiệt Độ (oC)</label>
+                  </td>
+                  <td>
+                    <label for=""><span id="T1"></span></label>
+                  </td>
+                  <td>
+                    <label for=""><span id="T2"></span></label>
+                  </td>
+                  <td>
+                    <label for=""><span id="T3"></span></label>
+                  </td>
+                  <td>
+                    <label for=""><span id="T4"></span></label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="">Thời gian (ms)</label>
+                  </td>
+                  <td>
+                    <label for=""><span id="Ti1"></span></label>
+                  </td>
+                  <td>
+                    <label for=""><span id="Ti2"></span></label>
+                  </td>
+                  <td>
+                    <label for=""><span id="Ti3"></span></label>
+                  </td>
+                  <td>
+                    <label for=""><span id="Ti4"></span></label>
                   </td>
                 </tr>
               </table>

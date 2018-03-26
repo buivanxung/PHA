@@ -272,7 +272,7 @@ module.exports = function(app) {
     catch(e) {
      return console.error(e);
     }
-    var liter = null;
+    var liter = 0;
     var nodeeui = getdata('rx.moteeui', parse_data);
     var appeui = getdata('rx.appeui', parse_data);
     var port = getdata('rx.userdata.port', parse_data);
@@ -297,7 +297,7 @@ module.exports = function(app) {
             }
             liter = hextoLSB(str);
           }
-   client.query("INSERT INTO db_meter(num, nodeeui, appeui, port, phyPayload, liter, created_at, updated_at) VALUES('"+num+"','"+nodeeui+"','"+appeui+"','"+port+"','"+phyPayload+"','"+liter"','Now()','Now()')", function(err, result) {
+   client.query("INSERT INTO db_meter(num, nodeeui, appeui, port, phyPayload, liter, created_at, updated_at) VALUES('"+num+"','"+nodeeui+"','"+appeui+"','"+port+"','"+phyPayload+"','"+liter+"','Now()','Now()')", function(err, result) {
             done();
             if (err) {
               return console.error('error happened during query', err)
