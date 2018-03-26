@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Data LoRa   </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <link href="css/animate.css" rel="stylesheet" />
+  <!-- Squad theme CSS -->
+    <link href="css/style_home.css" rel="stylesheet">
+    <link href="color/default.css" rel="stylesheet">
+    <script type="text/javascript">
+    $(document).ready(function()
+    {
+      var string = $("input[name='string']");
+      var hex = $("input[name='hex']");
+      var base64 = $("input[name='base64']");
+      var hexLSB = $("input[name='hexLSB']");
+
+      });
+
+      ////////////////////////
+    });
+    function postMessage()
+    {
+      var string1 = $('#string').val();
+      var hex1 = $('#hex').val();
+      var base641 = $('#base64').val();
+      var hexLSB1 = $('#hexLSB').val();
+      console.log(string1);
+      if (string1 != '') {
+        $('#hex').html(Buffer.from($('#string').val(), 'utf8').toString('hex'));
+        $('#base64').html(Base64.encode($('#string').val()));
+        $('#hexLSB').html(Buffer.from($('#string').val(), 'hex').readInt32LE());
+      }
+    }
+    </script>
+  </head>
+
+  <body>
+    <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+       <ul class="nav nav-pills nav-stacked" style="background-color:powderblue;">
+          <li><a href="/homedata">Back Dashboard</a></li>
+       </u>
+      </div>
+     <table>
+       <td>
+         <table border="1">
+           <tr bgcolor = "#aaffff">
+            	 <td>STT</td>
+               <td>Number</td>
+            	 <td>DevEUI</td>
+               <td>AppEUI</td>
+               <td>Port</td>
+               <td>Data</td>
+               <td><strong>Liter</strong></td>
+            	 <td>CreatedAT</td>
+           </tr>
+
+           <% list.rows.forEach(function(d) { %>
+             <tr border = "1">
+               <td><%= d.id %></td>
+          	   <td><%= d.num %></td>
+          	   <td><%= d.nodeeui %></td>
+          	   <td><%= d.appeui %></td>
+          	   <td><%= d.port %></td>
+               <td><%= d.phypayload %></td>
+               <td><strong><%= d.liter %></strong></td>
+          	   <td><%= d.created_at %></td>
+             </tr>
+         <% }); %>
+         </table>
+       </td>
+       <td>
+         <table>
+           <td>
+             <tr>
+               <button type="button" name="Dowload csv">Dowload CSV</button>
+             </tr>
+           </td>
+         </table>
+       </td>
+       <td>
+        <p>Convert Data</p>
+        <p>Please Input String:</p>
+        <input type="text" name="string" value="1">
+        <p>Please Input a Hexa</p>
+        <input type="text" name="hex" value="2">
+        <p>Please Input a Format Base64</p>
+        <input type="text" name="base64" value="3">
+        <p>Result HEX LSB</p>
+        <input type="text" name="hexLSB" value="4">
+        <button type="button" name="button" onclick = "postMessage()" >Submit</button>
+       </td>
+     </table>
+  </body>
+</html>
