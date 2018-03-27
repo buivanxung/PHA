@@ -19,6 +19,9 @@
 				socket.on('message', function (data) {
 					var content = $('#messages').html() + data + '<br/>';
 					$('#messages').html(content);
+          if (data.length == 30) {
+            
+          }
           console.log(data);
 				});
         socket.on('status_client', function(data) {
@@ -52,39 +55,43 @@
         // var chkId3 = '';
         // var chkId4 = '';
         // var conditionId = '';
+        var m1 = [0,0,0,0,0,0,0,0];
+        var m2 = [0,0,0,0,0,0,0,0];
+        var m3 = [0,0,0,0,0,0,0,0];
+        var m4 = [0,0,0,0,0,0,0,0];
 
-        $('#Ca1').html("0.0");
-        $('#Ca2').html("0.0");
-        $('#Ca3').html("0.0");
-        $('#Ca4').html("0.0");
-        $('#Cl1').html("0.0");
-        $('#Cl2').html("0.0");
-        $('#Cl3').html("0.0");
-        $('#Cl4').html("0.0");
-        $('#Na1').html("0.0");
-        $('#Na2').html("0.0");
-        $('#Na3').html("0.0");
-        $('#Na4').html("0.0");
-        $('#K1').html("0.0");
-        $('#K2').html("0.0");
-        $('#K3').html("0.0");
-        $('#K4').html("0.0");
-        $('#N1').html("0.0");
-        $('#N2').html("0.0");
-        $('#N3').html("0.0");
-        $('#N4').html("0.0");
-        $('#N01').html("0.0");
-        $('#N02').html("0.0");
-        $('#N03').html("0.0");
-        $('#N04').html("0.0");
-        $('#T1').html("0.0");
-        $('#T2').html("0.0");
-        $('#T3').html("0.0");
-        $('#T4').html("0.0");
-        $('#Ti1').html("0.0");
-        $('#Ti2').html("0.0");
-        $('#Ti3').html("0.0");
-        $('#Ti4').html("0.0");
+        $('#Ca1').html(m1[0]);
+        $('#Ca2').html(m2[0]);
+        $('#Ca3').html(m3[0]);
+        $('#Ca4').html(m4[0]);
+        $('#Cl1').html(m1[1]);
+        $('#Cl2').html(m2[1]);
+        $('#Cl3').html(m3[1]);
+        $('#Cl4').html(m4[1]);
+        $('#Na1').html(m1[2]);
+        $('#Na2').html(m2[2]);
+        $('#Na3').html(m3[2]);
+        $('#Na4').html(m4[2]);
+        $('#K1').html(m1[3]);
+        $('#K2').html(m2[3]);
+        $('#K3').html(m3[3]);
+        $('#K4').html(m4[3]);
+        $('#N1').html(m1[4]);
+        $('#N2').html(m2[4]);
+        $('#N3').html(m3[4]);
+        $('#N4').html(m4[4]);
+        $('#N01').html(m1[5]);
+        $('#N02').html(m2[5]);
+        $('#N03').html(m3[5]);
+        $('#N04').html(m4[5]);
+        $('#T1').html(m1[6]);
+        $('#T2').html(m2[6]);
+        $('#T3').html(m3[6]);
+        $('#T4').html(m4[6]);
+        $('#Ti1').html(m1[7]);
+        $('#Ti2').html(m2[7]);
+        $('#Ti3').html(m3[7]);
+        $('#Ti4').html(m4[7]);
 
 
         //
@@ -120,6 +127,8 @@
         var Error_Code = new ArrayBuffer(4);
         var M_Sample1 = new ArrayBuffer(37);
         var M_Sample2 = new ArrayBuffer(37);
+
+
 
         setInterval(function () {
           $('#time').html(new Date());

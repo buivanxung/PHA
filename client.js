@@ -43,6 +43,8 @@ setInterval(function () {
     socket.emit('control_status', "stop");
   }else {
     socket.emit('control_status', "run");
+    socket.emit('calibrate', "0x2334550493940539453845342534677869507960595857485949504045345bc23423423389");
+    socket.emit('sample', "0x2334550493940539453845342534677869507960595857485949504045345bc23423423389");
   }
   console.log(status);
 }, 10000);

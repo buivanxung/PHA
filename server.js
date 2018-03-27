@@ -92,6 +92,12 @@ io.on('connection', function (socket) {
   socket.on('web_control_status', function(data) {
     socket.broadcast.emit('client_control_status', data);
   });
+  socket.on('calibrate', function (data){
+    socket.broadcast.emit('calibrated', data);
+  });
+  socket.on('sample', function (data){
+      socket.broadcast.emit('sampled', data);
+  });
 
   socket.on('feedback', function(data) {
     console.log(data);
