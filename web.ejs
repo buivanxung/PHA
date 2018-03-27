@@ -11,6 +11,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script language="javascript">
 			var socket;
+      var m1 = [0,0,0,0,0,0,0,0];
+      var m2 = [0,0,0,0,0,0,0,0];
+      var m3 = [0,0,0,0,0,0,0,0];
+      var m4 = [0,0,0,0,0,0,0,0];
 
 			$(document).ready(function()
 			{
@@ -24,6 +28,13 @@
           }
           console.log(data);
 				});
+        socket.on('sampled', function(data) {
+          console.log(data);
+          update_sampled(data);
+        });
+        socket.on('calibrated', function(data) {
+          console.log(data);
+        });
         socket.on('status_client', function(data) {
            $('#status').html(data);
           console.log(data);
@@ -55,10 +66,7 @@
         // var chkId3 = '';
         // var chkId4 = '';
         // var conditionId = '';
-        var m1 = [0,0,0,0,0,0,0,0];
-        var m2 = [0,0,0,0,0,0,0,0];
-        var m3 = [0,0,0,0,0,0,0,0];
-        var m4 = [0,0,0,0,0,0,0,0];
+
 
         $('#Ca1').html(m1[0]);
         $('#Ca2').html(m2[0]);
@@ -189,7 +197,46 @@
         });
         ////////////////////////
       });
-
+      function update_sampled(a){
+        var m = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        var j = -1;
+        for (i = 0 ; i < a.length; i+=2) {
+          m[j++] = a[i] + a[i+1] + "";
+        }
+        console.log(m);
+        $('#Ca1').html(m[0]);
+        $('#Ca2').html(m2[0]);
+        $('#Ca3').html(m[8]);
+        $('#Ca4').html(m4[0]);
+        $('#Cl1').html(m[1]);
+        $('#Cl2').html(m2[1]);
+        $('#Cl3').html(m[9]);
+        $('#Cl4').html(m4[1]);
+        $('#Na1').html(m[2]);
+        $('#Na2').html(m2[2]);
+        $('#Na3').html(m[10]);
+        $('#Na4').html(m4[2]);
+        $('#K1').html(m[3]);
+        $('#K2').html(m2[3]);
+        $('#K3').html(m[11]);
+        $('#K4').html(m4[3]);
+        $('#N1').html(m[4]);
+        $('#N2').html(m2[4]);
+        $('#N3').html(m[12]);
+        $('#N4').html(m4[4]);
+        $('#N01').html(m[5]);
+        $('#N02').html(m2[5]);
+        $('#N03').html(m[13]);
+        $('#N04').html(m4[5]);
+        $('#T1').html(m[6]);
+        $('#T2').html(m2[6]);
+        $('#T3').html(m[14]);
+        $('#T4').html(m4[6]);
+        $('#Ti1').html(m[7]);
+        $('#Ti2').html(m2[7]);
+        $('#Ti3').html(m[15]);
+        $('#Ti4').html(m4[7]);
+      }
       function postMessage()
 			{
 				if (socket) {
@@ -333,7 +380,7 @@
               <label for="">Đo</label>
             </td>
             <td>
-              <input id="numberTime" type="number" size="20" min="1" max="500">
+              <input id="numberTime" type="number" size="20" min="20" max="50">
             </td>
             <td>
               <select>
